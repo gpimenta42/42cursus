@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:24:13 by gpimenta          #+#    #+#             */
-/*   Updated: 2022/10/29 18:19:57 by gpimenta         ###   ########.fr       */
+/*   Updated: 2022/10/30 18:07:53 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,29 +61,4 @@ size_t	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	char	*str;
-	size_t	i;
-
-	str = (char *)s;
-	i = 0;
-	while (i < n)
-	{
-		str[i] = '\0';
-		i++;
-	}
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*buffer;
-
-	buffer = malloc(size * count);
-	if (!buffer)
-		return (NULL);
-	ft_bzero(buffer, size * count);
-	return (buffer);
 }
