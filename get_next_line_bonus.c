@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpimenta <gpimenta@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: gpimenta <gpimenta@student.42lisboa.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 14:35:49 by gpimenta          #+#    #+#             */
-/*   Updated: 2022/11/01 16:10:16 by gpimenta         ###   ########.fr       */
+/*   Created: 2022/11/01 15:20:58 by gpimenta          #+#    #+#             */
+/*   Updated: 2022/11/01 16:10:58 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*ft_clean_save(char *save)
 {
@@ -94,39 +94,51 @@ static char	*ft_read_save(int fd, char *save, char *buffer)
 char	*get_next_line(int fd)
 {
 	char		*buffer;
-	static char	*save;
+	static char	*save[4096];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 4096)
 		return (NULL);
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	save = ft_read_save(fd, save, buffer);
-	if (!save)
+	save[fd] = ft_read_save(fd, save[fd], buffer);
+	if (!save[fd])
 	{
 		free (buffer);
 		return (NULL);
 	}
-	line = ft_line(save);
-	save = ft_clean_save(save);
+	line = ft_line(save[fd]);
+	save[fd] = ft_clean_save(save[fd]);
 	return (line);
 }
 /*
 int	main()
 {
-	int	fd;
+	int	fd1;
+	int	fd2;
+	int	fd3;
 	char	*line;
+	int	i;
 
-	fd = open("arquivo", O_RDONLY);
-	if (fd == -1)
-		return 1;
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	line = get_next_line(fd);
-	printf("%s", line);
+	i = 1;
+	fd1 = open("arquivo", O_RDONLY);
+	fd2 = open("arquivo2", O_RDONLY);
+	fd3 = open("arquivo3", O_RDONLY);
+	while (i < 5)
+	{
+		line = get_next_line(fd1);
+		printf("line %d: %s", i, line);
+		free (line);
+		line = get_next_line(fd2);
+		printf("line %d: %s", i, line);
+		free (line);
+		line = get_next_line(fd3);
+		printf("line %d: %s", i, line);
+		free (line);
+		i++;
+	}
+	close(fd1);
+	close(fd2);
+	close(fd3);
 }*/

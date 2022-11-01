@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpimenta <gpimenta@student.42lisboa.com>   +#+  +:+       +#+        */
+/*   By: gpimenta <gpimenta@student.42lisboa.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 16:24:13 by gpimenta          #+#    #+#             */
-/*   Updated: 2022/11/01 15:56:35 by gpimenta         ###   ########.fr       */
+/*   Created: 2022/11/01 15:56:17 by gpimenta          #+#    #+#             */
+/*   Updated: 2022/11/01 15:59:42 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_strchr(const char *s, int c)
 {
