@@ -9,7 +9,7 @@ Repeated calls (e.g., using a loop) to your get_next_line() function should let 
 If there is nothing else to read or if an error occurred, it should return NULL.
 
 
-- To compile the code use as follows (a buffer size of 42 is used as an example): cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 < .. >.c
+- To compile the code use as follows (a buffer size of 42 is used as an example): cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 < files >.c
 
 Forbidden:
 - lseek() is forbidden.
