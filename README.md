@@ -1,4 +1,4 @@
-# Objective 
+### Objective 
 
 To write a function that returns a line read from a file descriptor (reading a file and reading from standard input). 
 
@@ -18,7 +18,7 @@ Bonus part:
 - Develop get_next_line() using only one static variable.
 - get_next_line() can manage multiple file descriptors at the same time.
 
-# How to compile
+### How to compile
 
 To compile the code use as follows (a buffer size of 42 is used as an ex): cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 < files >.c
 
