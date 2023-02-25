@@ -52,6 +52,39 @@ size_t ft_strspn(const char *s, const char *accept)
     return (i);
 }
 
+/*other way to do it */
+size_t ft_strspn2(const char *s, const char *accept)
+{
+	size_t i;
+	size_t j;
+	int count;
+	int flag;
+
+	i = 0;
+	j = 0;
+	flag = 0;
+	count = 0;
+	while (s[i])
+	{
+		while (accept[j])
+		{
+			if (s[i] == accept[j])
+			{
+				count++;
+				flag = 1;
+			}
+			j++;
+		}
+		j = 0;
+		if (flag == 0)
+			break;
+		flag = 0;
+		i++;
+	}
+	return (count);
+}
+
+
 int main()
 {
     printf("%li\n", strspn("aol", "kkkol")); // 0
