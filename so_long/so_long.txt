@@ -1,0 +1,107 @@
+so_long
+
+										MinilibX
+
+cd ~/
+mkdir tutorial_minilibx
+cd tutorial_minilibx
+curl -O https://projects.intra.42.fr/uploads/document/document/13165/minilibx-linux.tgz
+	#curk - url 
+	#output file - minilibx-linux.tgz 
+
+tar -xvf minilibx_opengl.tgz 
+	#arqiuvos comprimidos 
+	#x - extract 
+	#verbose
+	#file 
+
+ls minilibx-linux
+
+
+
+echo | cpp -Wp, -v 
+	#ver onde o cpp (gcc) vai buscar os include < > 
+--
+#include "..." search starts here:
+#include <...> search starts here:
+ /usr/lib/gcc/x86_64-linux-gnu/9/include
+ /usr/local/include
+ /usr/include/x86_64-linux-gnu
+ /usr/include
+ --
+
+cd /usr/local/include
+
+cp < > /usr/local/include
+    mlx.h
+    mlx_int.h
+    mlx_new_window.h
+    mlx_opengl.h
+    mlx_png.h
+
+
+
+
+		man /usr/share/man/man3/mlx.1
+
+#include <mlx.h>
+
+void *mlx_init ();
+	
+	#conexao com servidor grafico 
+
+
+-----------------------------------------------------------------------------------
+		man /usr/share/man/man3/mlx_new_window.1
+
+void *mlx_new_window(void *mlx_ptr, int size_x, int size_y, char *title)
+
+
+-----------------------------------------------------------------------------------
+		man /usr/share/man/man3/mlx_pixel_put.1
+
+int mlx_pixel_put (void *mlx_ptr, void *win_ptr, int x, int y, int color)
+
+
+-----------------------------------------------------------------------------------
+		man /usr/share/man/man3/mlx_new_image.1
+
+-----------------------------------------------------------------------------------
+		man /usr/share/man/man3/mlx_loop.1
+
+int mlx_key_hook(void *win_ptr, int (*funct_ptr)(), void *param)
+
+
+-----------------------------------------------------------------------------------
+#include "mlx.h"
+#include <unistd.h>
+
+void	ft_putchar(char c)
+{
+	write (1, &c, 1);
+}
+
+int deal_key(int key, void *param)
+{
+	ft_putchar('X');
+	mlx_pixel_put(mlx_ptr, win_ptr, )
+	return (0);
+}
+
+int main()
+{
+	
+	void *mlx_ptr;
+	void *win_ptr;
+
+	mlx_ptr = mlx_init();
+	win_ptr = mlx_new_window(mlx_ptr, 500, 500, "mlx 42");
+	mlx_pixel_put(mlx_ptr, win_ptr, 250 250, 0xFFFFFF);
+	mlx_key_hook(win_ptr, deal_key, (void *)0);
+	mlx_loop(mlx_ptr);
+}
+-- cc -I /usr/local/include main.c -L /usr/local/lib/ -lmlx  -framework OpenGL -framework AppKit
+-- ./a.out (press X X X X X)
+X X X X X
+
+

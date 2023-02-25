@@ -1,0 +1,10 @@
+{
+	"files.associations": {
+		"unistd.h": "c",
+		"libft.h": "c",
+		"signal.h": "c",
+		"minitalk.h": "c",
+		"siginfo.h": "c"
+	},
+	"cmake.configureOnOpen": false
+}
