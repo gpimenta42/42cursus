@@ -1,8 +1,8 @@
-## Objetive                                              
+### Objetive                                              
 
 To create a communication program in the form of a client and a server.
 
-## Server 
+### Server 
 
 The server must be started first. 
 
@@ -20,7 +20,7 @@ client.
 
 
 
-## Client
+### Client
 
 The client takes two parameters:
 - The server PID.
@@ -33,7 +33,7 @@ UNIX signals:
 - It could only be used these two signals: SIGUSR1 and SIGUSR2.
 
 
-## How to compile 
+### How to compile 
 
 <sub>make 
 
@@ -45,7 +45,7 @@ UNIX signals:
 
 <sub>./client (or) ./client_bonus < PID > < string to pass > </sub>
 
-## Output
+### Output
 
 ![image](https://user-images.githubusercontent.com/87911989/219957931-a1ebcf4d-3a9d-4fe9-817d-cc5dfed73590.png)
 
