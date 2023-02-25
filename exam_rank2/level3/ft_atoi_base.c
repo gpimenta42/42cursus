@@ -71,17 +71,21 @@ so str:
 	3 + 2
 	5
 */
+#include <stdio.h>
 
-int	position_base(char c, int str_base)
+int	base_position(char c, int str_base)
 {
-	int i = 0;
-	char lower[] = "0123456789abcdef";
-	char upper[] = "0123456789ABCDEF";
+	int i;
+	char *base = "0123456789abcdef";
+	char *_base = "0123456789ABCDEF";
 
-	while (lower[i] && upper[i] && i < str_base)
+	i = 0;
+	while (base[i] && _base[i] && i < str_base)
 	{
-		if (c == lower[i] || c == upper[i])
+		if (c == base[i] || c == _base[i])
+		{
 			return (i);
+		}
 		i++;
 	}
 	return (-1);
@@ -91,40 +95,49 @@ int ft_atoi_base(const char *str, int str_base)
 {
 	int res;
 	int i;
-	int n;
-	int power;
-	int pos;
-	int len;
+	int j;
 	int sign;
+	int len;
+	int res_power;
 
-	res = 0;
 	i = 0;
-	len = 0;
 	sign = 1;
-	if (str[i] == '-')
-		sign = -1;
-	while (str[len] && position_base(str[len], str_base) >= 0)
-		len++;
-	len--;
-	while (str[i])
+	len = 0;
+	res = 0;
+	if (str[0] == '-')
 	{
-		pos = position_base(str[i], str_base);
-		printf("pos: %i\n", pos);
-		if (pos == -1)
-			return (res);
-		n = len - i;
-		power = 1;
-		while (n > 0)
+		sign = -1;
+		str++;
+	}
+	while (str[len])
+	{
+		if (base_position(str[len], str_base) == -1)
+			break;
+		len ++;
+	}
+	len--;
+	while (len >= 0)
+	{
+		if (base_position(str[i], str_base) == -1)
+			break;
+		j = 0;
+		res_power = 1;
+		while (j < len)
 		{
-			power *= str_base;
-			n--;
+			res_power *= str_base;
+			j++;
 		}
-		printf("power:%i\n", power);
-		res += power * pos;
+		res += base_position(str[i], str_base) * res_power;
 		i++;
+		len--;
 	}
 	return (res * sign);
 }
+
+// int main()
+// {
+// 	printf("%d\n", ft_atoi_base("-1E", 16));
+// }
 
 
 int main()
