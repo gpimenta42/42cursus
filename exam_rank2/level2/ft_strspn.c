@@ -72,6 +72,7 @@ size_t ft_strspn2(const char *s, const char *accept)
 			{
 				count++;
 				flag = 1;
+				break;
 			}
 			j++;
 		}
