@@ -26,22 +26,19 @@ int	    is_power_of_2(unsigned int n);
 */
 
 #include <stdio.h>
-
-int	is_power_of_2(unsigned int n)
+int		is_power_of_2(unsigned int n)
 {
-	int a;
-
-	a = 2;
-	while (a <= n)
-	{
-		if (a == n)
-			return (1);
-		a *= 2;
-	}
-	return 0;
+	if (n == 0)
+		return (0);
+	while (n % 2 == 0)
+		n /= 2;
+	if (n == 1)
+		return (1);
+	else
+		return 0;
 }
-
+	
 int main()
 {
-	printf("%d\n", is_power_of_2(8));
+	printf("%d\n", is_power_of_2(-8));
 }
