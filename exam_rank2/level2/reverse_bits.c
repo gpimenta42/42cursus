@@ -64,19 +64,30 @@ unsigned char	reverse_bits(unsigned char octet)
 	return (byte);
 }
 
-unsigned char	reverse_bits2(unsigned char octet)
+/* another form to do */
+unsigned char reverse_bits2(unsigned char octet)
 {
-	int		i = 8;
-	unsigned char	res = 0;
+	int i;
+	unsigned char c;
 
-	while (i > 0)
+	c = 0;
+	i = 0;
+	while (i < 4)
 	{
-		res = res * 2 + (octet % 2);
-		octet = octet / 2;
-		i--;
+		if (octet >> i & 1)
+			c += 1 << (7 - i);
+		i++;
 	}
-	return (res);
+	i = 0;
+	while (i < 4)
+	{
+		if (octet << i & 128)
+			c += 1 << i;
+		i++;
+	}
+	return (c);
 }
+
 
 int main()
 {
