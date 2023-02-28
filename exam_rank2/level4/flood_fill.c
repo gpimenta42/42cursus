@@ -122,7 +122,7 @@ void	flood_fill(char **tab, t_point size, t_point begin)
 	target = tab[begin.y][begin.x];
 	f_fill(tab, size, target, begin.x, begin.y);
 }
-
+/*
 char** make_area(char** zone, t_point size)
 {
 	char** new;
@@ -138,7 +138,7 @@ char** make_area(char** zone, t_point size)
 
 	return new;
 }
-/*
+
 void	fill(char **tab, t_point size, t_point cur, char to_fill)
 {
 	if (cur.y < 0 || cur.y >= size.y || cur.x < 0 || cur.x >= size.x
@@ -156,7 +156,7 @@ void	flood_fill_2(char **tab, t_point size, t_point begin)
 {
 	fill(tab, size, begin, tab[begin.y][begin.x]);
 }
-*/
+
 int main(void)
 {
 	t_point size = {8, 5};
@@ -178,4 +178,4 @@ int main(void)
 	for (int i = 0; i < size.y; ++i)
 		printf("%s\n", area[i]);
 	return (0);
-}
+}*/
