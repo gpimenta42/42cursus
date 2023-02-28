@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 14:21:18 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/02/28 21:32:06 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/02/28 22:25:07 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	ber_file(char *str)
 }
 
 /* testar com mapa vazio - se e necessario free map */
-
 
 void	map_error(t_vars *vars)
 {
@@ -219,15 +218,16 @@ void	check_positions(t_vars *vars)
 
 void	flood_fill(t_vars *vars, int y, int x, char **temp)
 {
-	printf("x:%d\ny:%d\n", x, y);
-	if (temp[y][x] == '1')
+	if (temp[y][x] == '1' || temp[y][x] == 'P')
 		return ;
+	else if (temp[y][x] == '0')
+		temp[y][x] = 'P';
 	else if (temp[y][x] == 'C')
-		temp[y][x] = '0';
+		temp[y][x] = 'P';
 	else if (temp[y][x] == 'E')
 	{
 		vars->flood.check_e++;
-		return ;
+		temp[y][x] = 'P';
 	}
 	flood_fill(vars, y + 1, x, temp);
 	flood_fill(vars, y - 1, x, temp);
@@ -252,11 +252,17 @@ int	check_all_collectible(char **temp)
 		}
 		y++;
 	}
+	return (1);
+}
+
+void	ft_free(char **temp)
+{
+	int	y;
+
 	y = -1;
 	while (temp[++y])
 		free(temp[y]);
 	free(temp);
-	return (1);
 }
 
 int	valid_path_checker(t_vars *vars)
@@ -265,16 +271,24 @@ int	valid_path_checker(t_vars *vars)
 	int		y;
 
 	y = -1;
+	vars->flood.check_e = 0;
 	temp = malloc(sizeof(char *) * (vars->y_map + 1));
 	if (!temp)
 		return (0);
 	while (vars->map[++y])
 		temp[y] = ft_strdup(vars->map[y]);
-	vars->map[y] = 0;
+	temp[y] = 0;
 	check_positions(vars);
-	flood_fill(vars, vars->y_p, vars->x_p, temp);
+	flood_fill(vars, vars->y_p + 1, vars->x_p, temp);
+	flood_fill(vars, vars->y_p - 1, vars->x_p, temp);
+	flood_fill(vars, vars->y_p, vars->x_p + 1, temp);
+	flood_fill(vars, vars->y_p, vars->x_p - 1, temp);
 	if (vars->flood.check_e == 0 || !check_all_collectible(temp))
+	{
+		ft_free(temp);
 		return (0);
+	}
+	ft_free(temp);
 	return (1);
 }
 
@@ -286,7 +300,7 @@ void	map_checker(t_vars *vars)
 	if (!rectangular_checker(vars) || !walled_checker(vars)
 		|| !composition_checker(vars, 0, 0) || !valid_path_checker(vars))
 		map_error(vars);
-	printf("map OK");
+	printf("map OK\n");
 }
 
 int	main(int ac, char **av)
