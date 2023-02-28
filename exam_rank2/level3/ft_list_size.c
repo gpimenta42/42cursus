@@ -50,7 +50,7 @@ int	ft_list_size(t_list *begin_list)
 	}
 	return (i);
 }
-
+/*
 t_list	*new(void *data)
 {
 	t_list *node;
@@ -81,4 +81,4 @@ int main()
 	free(b);
 	free(c);
 	free(d);
-}
+}*/
