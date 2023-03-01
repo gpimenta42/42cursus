@@ -19,7 +19,7 @@ strrchr / strncmp / strdup / atoi / strnstr
 - ft_putchar_fd / ft_putstr_fd / ft_putendl_fd / ft_putnbr_fd
 - ft_lstnew / ft_lstadd_front / ft_lstsize / ft_lstlast / ft_lstadd_back / ft_lstdelone / ft_lstclear / ft_lstiter / ft_lstmap
 
-Other added functions: 
+## Other added functions: 
 - ft_printf
 - get_next_line
 
