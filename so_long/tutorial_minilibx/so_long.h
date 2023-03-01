@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 13:50:27 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/02/28 20:18:44 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/01 20:29:37 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define SO_LONG_H
 
 /*mlx_init*/
-// include <mlx.h>
+# include "minilibx-linux/mlx.h"
 /*malloc*/
 # include <stdlib.h>
 /*read*/
@@ -27,11 +27,32 @@
 # include "libft/libft.h"
 # include <stdio.h>
 
+# define SPRITE_SIZE 32
+
 typedef struct s_flood
 {
 	int	check_c;
 	int	check_e;
 }	t_flood;
+
+typedef struct s_win
+{
+	void	*mlx_ptr;
+	void	*win_ptr;
+	int		y;
+	int		x;
+}	t_win;
+
+typedef struct s_img
+{
+	void	*img_ptr;
+	char	*addr;
+	int		x;
+	int		y;
+	int		bpp;
+	int		endian;
+	int		line_len;
+}	t_img;
 
 typedef struct s_vars
 {

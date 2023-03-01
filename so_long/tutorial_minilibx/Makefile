@@ -6,9 +6,9 @@ CFLAGS  = -Wall -Werror -Wextra -O3 -g
 FSANITIZE       = -fsanitize=address -g3
 INCLUDE = -I include # C Flags (gcc) & linking. "-Iinclude" if you created the folder "include" to put your project headers"
 LIBFT   = ./libft/libft.a # path to libft library
-LIBMLX  = ./tutorial_minilibx/minilibx-linux/libmlx_Linux.a # could be /usr/lib, depends on where you decided to put your mlx library
+LIBMLX  = ./minilibx-linux/libmlx_Linux.a # could be /usr/lib, depends on where you decided to put your mlx library
 LIBFTDIR	= ./libft/
-LIBMLXDIR 	= ./tutorial_minilibx/minilibx-linux/
+LIBMLXDIR 	= ./minilibx-linux/
 LFLAGS  = -L$(LIBMLXDIR) -lmlx -L${LIBFTDIR} -lft# if you decided to install libmlx.a locally you don't need "-L$(LIBMLX) -lmlx" the school also has it locally as well...
 SRC     = $(wildcard *.c)# list your source files
 OBJ     = $(SRC:%.c=%.o)# convert source files to binary list
@@ -40,6 +40,11 @@ fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+test:
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./$(NAME)
+
+.PHONY: $(LIBFT) re all clean fclean
 
 show:
 	@printf "UNAME		: $(UNAME)\n"

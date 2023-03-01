@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 14:21:18 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/02/28 22:25:07 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/01 20:30:35 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,18 +300,111 @@ void	map_checker(t_vars *vars)
 	if (!rectangular_checker(vars) || !walled_checker(vars)
 		|| !composition_checker(vars, 0, 0) || !valid_path_checker(vars))
 		map_error(vars);
-	printf("map OK\n");
+	return ;
+}
+
+/*
+void	*mlx_init();
+The mlx_init function will create connection between software and display.
+No parameters are needed,
+it  will  return a void * identifier, used for further calls to the library
+*/
+
+/*
+int		mlx_get_screen_size(void *mlx_ptr, int *sizex, int *sizey);
+Get the current screen size (because macOS is sheit)
+*/
+
+/* void * mlx_new_window (void *mlx_ptr, int size_x, int size_y, char *title );
+The mlx_new_window() function creates a new window on the screen,
+using the size_x and size_y parameters to determine its size,
+and title as the text that should be displayed in the window’s title bar.
+The mlx_ptr parameter is the connection identifier returned by mlx_init()
+mlx_new_window() returns a void * window identifier that can be used after.
+*/
+
+/*
+int mlx_loop ( void *mlx_ptr );
+It is an infinite loop  that  waits for an event,
+and then calls a user-defined function associated with this event.
+A single parameter is needed, the connection identifier mlx_ptr.
+This function never returns.
+*/
+
+void	window_init(t_win *win, t_vars *vars)
+{
+	int	sizex;
+	int	sizey;
+
+	win->mlx_ptr = mlx_init();
+	mlx_get_screen_size(win->mlx_ptr, &sizex, &sizey);
+	if (vars->y_map * SPRITE_SIZE > sizey || vars->x_map * SPRITE_SIZE > sizex)
+	{
+		ft_free(vars->map);
+		free(win->mlx_ptr);
+		exit (0);
+	}
+	win->win_ptr = mlx_new_window(win->mlx_ptr, vars->x_map * SPRITE_SIZE,
+			vars->y_map * SPRITE_SIZE, "so_long");
+	mlx_loop(win->mlx_ptr);
+	return ;
+}
+
+/*
+int mlx_put_image_to_window (void *mlx_ptr, void *win_ptr, void *img_ptr, int x, int y);
+The user can dump the image inside a specified window at any time to display it on the screen.
+Three identifiers are needed here for the connection to the display, the window to use, and the image.
+The (x , y) coordinates define where the image should be placed in the window.
+*/
+
+void	image_to_window(t_vars *vars, t_win *win, t_img *img)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (vars->map[y])
+	{
+		x = 0;
+		while (vars->map[y][x])
+		{
+			if (vars->map[y][x] == 'P')
+				mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+					img->img_ptr, x + 32, y + 32);
+			x++;
+		}
+		y++;
+	}
+}
+
+/*
+void * mlx_xpm_to_image(void *mlx_ptr, char **xpm_data, int *width, int *height);
+The mlx_xpm_to_image() functions will create a new image the same way.
+They will fill it using the specified xpm_data.
+will return NULL if an error occurs
+Otherwise they return a non-null pointer as an image identifier.
+*/
+
+void	image_init(t_vars *vars, t_win *win, t_img *img)
+{
+	img->img_ptr = mlx_xpm_file_to_image(win->mlx_ptr, "images/p_init.xpm",
+			&img->x, &img->y);
+	image_to_window(vars, win, img);
 }
 
 int	main(int ac, char **av)
 {
 	t_vars	vars;
+	t_win	win;
+	t_img	img;
 
 	if (ac == 2)
 	{
 		ber_file(av[1]);
 		open_ber_file(av[1], &vars);
 		map_checker(&vars);
+		window_init(&win, &vars);
+		image_init(&vars, &win, &img);
 	}
 	else
 	{
