@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 14:21:18 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/01 20:30:35 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/02 16:57:41 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -346,18 +346,44 @@ void	window_init(t_win *win, t_vars *vars)
 	}
 	win->win_ptr = mlx_new_window(win->mlx_ptr, vars->x_map * SPRITE_SIZE,
 			vars->y_map * SPRITE_SIZE, "so_long");
-	mlx_loop(win->mlx_ptr);
 	return ;
 }
 
 /*
-int mlx_put_image_to_window (void *mlx_ptr, void *win_ptr, void *img_ptr, int x, int y);
-The user can dump the image inside a specified window at any time to display it on the screen.
-Three identifiers are needed here for the connection to the display, the window to use, and the image.
+int mlx_put_image_to_window(void *mlx_ptr, void *win_ptr, void *img_ptr,
+	int x, int y);
+The user dump the image inside a window at any time to display on screen.
+Three identifiers are connection to display, the window to use,and image.
 The (x , y) coordinates define where the image should be placed in the window.
 */
 
-void	image_to_window(t_vars *vars, t_win *win, t_img *img)
+void	image_to_window(t_vars *vars, t_win *win, char c, int x, int y)
+{
+	if (c == 'P')
+	{
+		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+			vars->p_init.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
+		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+			vars->floor.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
+	}
+	else if (c == '1')
+		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+			vars->wall.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
+	else if (c == 'C')
+	{
+		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+			vars->collectible.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
+		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+			vars->floor.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
+	}
+	else if (c == '0')
+	{
+		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+			vars->floor.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
+	}
+}
+
+void	image_to_window_loop(t_vars *vars, t_win *win)
 {
 	int	x;
 	int	y;
@@ -368,9 +394,7 @@ void	image_to_window(t_vars *vars, t_win *win, t_img *img)
 		x = 0;
 		while (vars->map[y][x])
 		{
-			if (vars->map[y][x] == 'P')
-				mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
-					img->img_ptr, x + 32, y + 32);
+			image_to_window(vars, win, vars->map[y][x], x, y);
 			x++;
 		}
 		y++;
@@ -385,18 +409,23 @@ will return NULL if an error occurs
 Otherwise they return a non-null pointer as an image identifier.
 */
 
-void	image_init(t_vars *vars, t_win *win, t_img *img)
+void	image_init(t_vars *vars, t_win *win)
 {
-	img->img_ptr = mlx_xpm_file_to_image(win->mlx_ptr, "images/p_init.xpm",
-			&img->x, &img->y);
-	image_to_window(vars, win, img);
+	vars->p_init.img_ptr = mlx_xpm_file_to_image(win->mlx_ptr,
+			"./images/p_init.xpm", &vars->p_init.x, &vars->p_init.y);
+	vars->wall.img_ptr = mlx_xpm_file_to_image(win->mlx_ptr,
+			"./images/wall.xpm", &vars->p_init.x, &vars->p_init.y);
+	vars->collectible.img_ptr = mlx_xpm_file_to_image(win->mlx_ptr,
+			"./images/collectible1.xpm", &vars->p_init.x, &vars->p_init.y);
+	vars->floor.img_ptr = mlx_xpm_file_to_image(win->mlx_ptr,
+			"./images/floor.xpm", &vars->p_init.x, &vars->p_init.y);
+	image_to_window_loop(vars, win);
 }
 
 int	main(int ac, char **av)
 {
 	t_vars	vars;
 	t_win	win;
-	t_img	img;
 
 	if (ac == 2)
 	{
@@ -404,7 +433,9 @@ int	main(int ac, char **av)
 		open_ber_file(av[1], &vars);
 		map_checker(&vars);
 		window_init(&win, &vars);
-		image_init(&vars, &win, &img);
+		image_init(&vars, &win);
+		mlx_loop(win.mlx_ptr);
+
 	}
 	else
 	{

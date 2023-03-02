@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 13:50:27 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/01 20:29:37 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/02 16:08:40 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include "libft/libft.h"
 # include <stdio.h>
 
-# define SPRITE_SIZE 32
+# define SPRITE_SIZE 50
 
 typedef struct s_flood
 {
@@ -65,6 +65,10 @@ typedef struct s_vars
 	int		e_counter;
 	int		c_counter;
 	t_flood	flood;
+	t_img	p_init;
+	t_img	wall;
+	t_img	floor;
+	t_img	collectible;
 }	t_vars;
 
 #endif

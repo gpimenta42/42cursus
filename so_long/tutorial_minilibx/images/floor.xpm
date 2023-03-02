@@ -1,0 +1,26 @@
+/* XPM */
+static char *floor1677771252[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 4 1 ",
+"  c #111010",
+". c #191818",
+"X c #242323",
+"o c #323030",
+/* pixels */
+"X .Xo X X .Xo X ",
+" .X. X .o.X. X .",
+".o X. .X.  X. .X",
+". . X. .X . X. .",
+" .o.. X  .o.. X ",
+"X .X o.Xo .X o.X",
+".X .X ...X .X ..",
+" .X  X X .X  X X",
+"X .Xo X X .Xo X ",
+" .X. X . .o. X .",
+"o  X. .X.  X. .X",
+". . X. .o . X. .",
+" .o.. X  .o.. X ",
+"X .X o.XX .X o.X",
+".X .X ...X .X ..",
+" .X  X X .X  X X"
+};
