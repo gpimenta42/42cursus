@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 13:50:27 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/02 16:08:40 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/03 17:28:17 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ typedef struct s_flood
 	int	check_e;
 }	t_flood;
 
-typedef struct s_win
-{
-	void	*mlx_ptr;
-	void	*win_ptr;
-	int		y;
-	int		x;
-}	t_win;
+// typedef struct s_win
+// {
+// 	void	*mlx_ptr;
+// 	void	*win_ptr;
+// 	int		y;
+// 	int		x;
+// }	t_win;
 
 typedef struct s_img
 {
@@ -52,6 +52,7 @@ typedef struct s_img
 	int		bpp;
 	int		endian;
 	int		line_len;
+	char	*pixel_ptr;
 }	t_img;
 
 typedef struct s_vars
@@ -65,10 +66,18 @@ typedef struct s_vars
 	int		e_counter;
 	int		c_counter;
 	t_flood	flood;
+	void	*mlx_ptr;
+	void	*win_ptr;
+	void	*w_ptr;
+	char	*w_address;
+	int		bpp;
+	int		line_len;
+	int		endian;
 	t_img	p_init;
 	t_img	wall;
 	t_img	floor;
-	t_img	collectible;
+	t_img	collect;
+	t_img	exit;
 }	t_vars;
 
 #endif

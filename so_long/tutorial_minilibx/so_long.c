@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 14:21:18 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/02 16:57:41 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/03 18:35:08 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,20 +331,23 @@ A single parameter is needed, the connection identifier mlx_ptr.
 This function never returns.
 */
 
-void	window_init(t_win *win, t_vars *vars)
+/* sizex, sizey
+Since you are passing the address of your variables here,
+you don't need to initialize them, the function will do it for you. */
+void	window_init(t_vars *vars)
 {
 	int	sizex;
 	int	sizey;
 
-	win->mlx_ptr = mlx_init();
-	mlx_get_screen_size(win->mlx_ptr, &sizex, &sizey);
+	vars->mlx_ptr = mlx_init();
+	mlx_get_screen_size(vars->mlx_ptr, &sizex, &sizey);
 	if (vars->y_map * SPRITE_SIZE > sizey || vars->x_map * SPRITE_SIZE > sizex)
 	{
 		ft_free(vars->map);
-		free(win->mlx_ptr);
+		free(vars->mlx_ptr);
 		exit (0);
 	}
-	win->win_ptr = mlx_new_window(win->mlx_ptr, vars->x_map * SPRITE_SIZE,
+	vars->win_ptr = mlx_new_window(vars->mlx_ptr, vars->x_map * SPRITE_SIZE,
 			vars->y_map * SPRITE_SIZE, "so_long");
 	return ;
 }
@@ -357,49 +360,138 @@ Three identifiers are connection to display, the window to use,and image.
 The (x , y) coordinates define where the image should be placed in the window.
 */
 
-void	image_to_window(t_vars *vars, t_win *win, char c, int x, int y)
+// void	image_to_window(t_vars *vars, t_win *win, char c, int x, int y)
+// {
+// 	if (c == 'P')
+// 	{
+// 		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+// 			vars->floor.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
+// 		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+// 			vars->p_init.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
+// 	}
+// 	else if (c == '1')
+// 		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+// 			vars->wall.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
+// 	else if (c == 'C')
+// 	{
+
+// 		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+// 			vars->floor.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
+// 		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+// 			vars->collect.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
+// 	}
+// 	else if (c == '0')
+// 		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+// 			vars->floor.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
+// 	else if (c == 'E')
+// 		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
+// 			vars->exit.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
+// }
+
+// void	image_to_window_loop(t_vars *vars, t_win *win)
+// {
+// 	int	x;
+// 	int	y;
+
+// 	y = 0;
+// 	while (vars->map[y])
+// 	{
+// 		x = 0;
+// 		while (vars->map[y][x])
+// 		{
+// 			image_to_window(vars, win, vars->map[y][x], x, y);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// }
+
+// void	image_init(t_vars *vars, t_win *win)
+// {
+// 	vars->p_init.img_ptr = mlx_xpm_file_to_image(win->mlx_ptr,
+// 			"./images/p_init.xpm", &vars->p_init.x, &vars->p_init.y);
+// 	vars->wall.img_ptr = mlx_xpm_file_to_image(win->mlx_ptr,
+// 			"./images/wall.xpm", &vars->p_init.x, &vars->p_init.y);
+// 	vars->collectible.img_ptr = mlx_xpm_file_to_image(win->mlx_ptr,
+// 			"./images/collectible1.xpm", &vars->p_init.x, &vars->p_init.y);
+// 	vars->floor.img_ptr = mlx_xpm_file_to_image(win->mlx_ptr,
+// 			"./images/floor.xpm", &vars->p_init.x, &vars->p_init.y);
+// 	image_to_window_loop(vars, win);
+// }
+
+
+void	pixel_put(t_vars *vars, int x, int y, unsigned int color)
 {
-	if (c == 'P')
-	{
-		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
-			vars->p_init.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
-		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
-			vars->floor.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
-	}
-	else if (c == '1')
-		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
-			vars->wall.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
-	else if (c == 'C')
-	{
-		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
-			vars->collectible.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
-		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
-			vars->floor.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
-	}
-	else if (c == '0')
-	{
-		mlx_put_image_to_window(win->mlx_ptr, win->win_ptr,
-			vars->floor.img_ptr, x * SPRITE_SIZE, y * SPRITE_SIZE);
-	}
+	char	*dest;
+
+	dest = vars->w_address + y * vars->line_len + x * (vars->bpp / 8);
+	*(unsigned int *)dest = color;
 }
 
-void	image_to_window_loop(t_vars *vars, t_win *win)
+void	render_each_img(t_img *type, t_vars *vars,
+		int x_position, int y_position)
 {
-	int	x;
-	int	y;
+	int				x;
+	int				y;
+	unsigned int	color;
 
 	y = 0;
-	while (vars->map[y])
+	while (y < type->y)
 	{
 		x = 0;
-		while (vars->map[y][x])
+		while (x < type->x)
 		{
-			image_to_window(vars, win, vars->map[y][x], x, y);
+			color = *(unsigned int *)type->addr
+				+ y * type->line_len + x * (type->bpp / 8);
+			if (color != 0 && x_position * 50 + x < (vars->x_map * 50)
+				&& y_position * 50 + y < (vars->y_map * 50))
+				pixel_put(vars, x_position * 50 + x,
+					y_position * 50 + y, color);
 			x++;
 		}
 		y++;
 	}
 }
+
+void	image_to_window(t_vars *vars, int x, int y)
+{
+	while (vars->map[++y])
+	{
+		while (vars->map[y][x])
+		{
+			if (vars->map[y][x] == 'P')
+			{
+				render_each_img(&vars->floor, vars, x, y);
+				render_each_img(&vars->p_init, vars, x, y);
+			}
+			else if (vars->map[y][x] == 'C')
+			{
+				render_each_img(&vars->collect, vars, x, y);
+				render_each_img(&vars->collect, vars, x, y);
+			}
+			else if (vars->map[y][x] == '0')
+				render_each_img(&vars->floor, vars, x, y);
+			else if (vars->map[y][x] == '1')
+				render_each_img(&vars->wall, vars, x, y);
+			else if (vars->map[y][x] == 'E')
+				render_each_img(&vars->exit, vars, x, y);
+			x++;
+		}
+		x = 0;
+	}
+	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->w_ptr, 0, 0);
+}
+
+			// color = *(unsigned int *)
+			// image_to_window(vars, win, vars->map[y][x], x, y);
+
+/*
+void * mlx_new_image(void *mlx_ptr, int width, int height);
+mlx_new_image() creates a new image in memory.
+It returns a void * identifier needed to manipulate this image later.
+It only needs the size of the image, using the width and height params,
+and the mlx_ptr connection identifier (see the mlx manual).
+*/
 
 /*
 void * mlx_xpm_to_image(void *mlx_ptr, char **xpm_data, int *width, int *height);
@@ -409,33 +501,69 @@ will return NULL if an error occurs
 Otherwise they return a non-null pointer as an image identifier.
 */
 
-void	image_init(t_vars *vars, t_win *win)
+/*
+char * mlx_get_data_addr(void *img_ptr, int *bpp, int *size_line, int *endian);
+mlx_get_data_addr() returns information about the created image,
+allowing a user to modify it later.
+The img_ptr parameter specifies the image to use.
+The three next parameters should be the addresses of 3 different valid intg.
+bpp will be filled with the number of bits needed to represent a pixel color.
+size_line is the number of bytes used to store one line of the image in memory.
+This information is needed to move from one line to another in the image.
+endian tells you wether the pixel color in the image needs to be stored in:
+little (endian == 0), or big (endian == 1).
+This func returns a char *adress that signs the beg of memory area for the img.
+From this adress, the first bpp represent the color of the first pixel 1st line.
+The second group of bpp represent the 2nd pixel of the first line, and so on.
+Add size_line to the adress to get the begining of the second line.
+You can reach any pixels of the image that way.
+*/
+
+/*, vars-> <type> ->x and y
+Since you are passing the address of your variables here,
+you don't need to initialize them, the function will do it for you. */
+
+void	image_init(t_vars *vars)
 {
-	vars->p_init.img_ptr = mlx_xpm_file_to_image(win->mlx_ptr,
-			"./images/p_init.xpm", &vars->p_init.x, &vars->p_init.y);
-	vars->wall.img_ptr = mlx_xpm_file_to_image(win->mlx_ptr,
-			"./images/wall.xpm", &vars->p_init.x, &vars->p_init.y);
-	vars->collectible.img_ptr = mlx_xpm_file_to_image(win->mlx_ptr,
-			"./images/collectible1.xpm", &vars->p_init.x, &vars->p_init.y);
-	vars->floor.img_ptr = mlx_xpm_file_to_image(win->mlx_ptr,
-			"./images/floor.xpm", &vars->p_init.x, &vars->p_init.y);
-	image_to_window_loop(vars, win);
+	vars->w_ptr = mlx_new_image(vars->mlx_ptr,
+			vars->x_map * 50, vars->y_map * 50);
+	vars->w_address = mlx_get_data_addr(vars->w_ptr,
+			&vars->bpp, &vars->line_len, &vars->endian);
+	vars->p_init.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/P_INIT.xpm", &vars->p_init.x, &vars->p_init.y);
+	vars->p_init.addr = mlx_get_data_addr(vars->p_init.img_ptr,
+			&vars->p_init.bpp, &vars->p_init.line_len, &vars->p_init.endian);
+	vars->wall.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/WALL.xpm", &vars->wall.x, &vars->wall.y);
+	vars->wall.addr = mlx_get_data_addr(vars->wall.img_ptr,
+			&vars->wall.bpp, &vars->wall.line_len, &vars->wall.endian);
+	vars->collect.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/ORB.xpm", &vars->collect.x, &vars->collect.y);
+	vars->collect.addr = mlx_get_data_addr(vars->collect.img_ptr,
+			&vars->collect.bpp, &vars->collect.line_len, &vars->collect.endian);
+	vars->floor.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/FLOOR.xpm", &vars->floor.x, &vars->floor.y);
+	vars->floor.addr = mlx_get_data_addr(vars->floor.img_ptr,
+			&vars->floor.bpp, &vars->floor.line_len, &vars->floor.endian);
+	vars->exit.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/EXIT1.xpm", &vars->exit.x, &vars->exit.y);
+	vars->exit.addr = mlx_get_data_addr(vars->exit.img_ptr, &vars->exit.bpp,
+			&vars->exit.line_len, &vars->exit.endian);
+	image_to_window(vars, 0, -1);
 }
 
 int	main(int ac, char **av)
 {
 	t_vars	vars;
-	t_win	win;
 
 	if (ac == 2)
 	{
 		ber_file(av[1]);
 		open_ber_file(av[1], &vars);
 		map_checker(&vars);
-		window_init(&win, &vars);
-		image_init(&vars, &win);
-		mlx_loop(win.mlx_ptr);
-
+		window_init(&vars);
+		image_init(&vars);
+		mlx_loop(vars.mlx_ptr);
 	}
 	else
 	{
