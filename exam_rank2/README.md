@@ -3,7 +3,7 @@ Here are the programs / functions i created to practice for exam-rank-2 at 42Sch
 They are sorted by topic and in ascending order of difficulty. 
 
 ### String manipulation 
-##### including malloc, and structs
+(including malloc, and structs)
 
 - level1: first_word / ft_strcpy / ft_swap / ft_strlen / putstr / repeat_alpha / rev_print / rot_13 / rotone / search_and_replace / ulstr 
     
@@ -14,7 +14,8 @@ They are sorted by topic and in ascending order of difficulty.
 - level4: flood_fill / f_itoa / ft_split / rev_wstr / rotstring 
   
 ### Mathematics 
-##### including malloc
+(including malloc)
+
 - level1: fizzbuzz / do_op
 
 - level2: is_power_of_2 / max
