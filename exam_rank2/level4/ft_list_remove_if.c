@@ -40,6 +40,7 @@ $>*/
 #include <stdio.h>
 #include <string.h>
 
+/*
 int cmp(void *data, void *data_ref)
 {
     int *i = data;
@@ -48,7 +49,7 @@ int cmp(void *data, void *data_ref)
     if (*i == *j)
         return (0);
     return 1;
-}
+}*/
 
 void	ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)())
 {
@@ -68,7 +69,7 @@ void	ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)())
     ft_list_remove_if(&current->next, data_ref, cmp);
 }
 
-
+/*
 t_list	*new_list(void *data)
 {
 	t_list *node;
@@ -102,4 +103,4 @@ int main()
         printf("after remove:%d\n", *(int*)list->data);         // dereferencing and converting to int void *
         list = list->next;
     }
-}
+}*/
