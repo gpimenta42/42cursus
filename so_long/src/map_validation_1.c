@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:08:21 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/05 15:49:15 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/06 21:21:36 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ int	composition_checker(t_vars *vars, int y, int x)
 			if (vars->map[y][x] != '1' && vars->map[y][x] != '0' &&
 					vars->map[y][x] != 'P' && vars->map[y][x] != 'E' &&
 						vars->map[y][x] != 'C')
-			{
-				printf("here\n");
 				return (0);
-			}
 			if (vars->map[y][x] == 'P')
 				vars->p_counter++;
 			else if (vars->map[y][x] == 'E')
