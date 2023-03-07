@@ -6,11 +6,11 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:08:21 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/06 21:22:46 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/07 16:59:49 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/so_long.h"
+#include "../includes/so_long_bonus.h"
 
 void	map_error(t_vars *vars)
 {
@@ -23,7 +23,7 @@ void	map_error(t_vars *vars)
 		y++;
 	}
 	free(vars->map);
-	ft_putstr_fd("Invalid map type\n", 2);
+	ft_putstr_fd("\033[0;31mInvalid map type\n\033[0;31m", 2);
 	exit (1);
 }
 

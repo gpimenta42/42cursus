@@ -6,11 +6,11 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:13:05 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/05 19:42:17 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/07 19:44:09 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/so_long.h"
+#include "../includes/so_long_bonus.h"
 
 void	put_pixel_to_window(t_vars *vars, int x, int y, unsigned int color)
 {
@@ -69,13 +69,15 @@ void	image_to_window(t_vars *vars, int x, int y)
 		while (vars->map[y][x])
 		{
 			if (vars->map[y][x] == '0' || vars->map[y][x] == 'P'
-				|| vars->map[y][x] == 'C')
+				|| vars->map[y][x] == 'C' || vars->map[y][x] == 'B')
 			{
 				texture_loading(&vars->floor, vars, x, y);
 				if (vars->map[y][x] == 'P')
 					texture_loading(&vars->p_init, vars, x, y);
 				else if (vars->map[y][x] == 'C')
-					texture_loading(&vars->collect, vars, x, y);
+					texture_loading(&vars->collect[0], vars, x, y);
+				else if (vars->map[y][x] == 'B')
+					texture_loading(&vars->enemy, vars, x, y);
 			}
 			else if (vars->map[y][x] == '1')
 				texture_loading(&vars->wall, vars, x, y);
@@ -126,33 +128,77 @@ You can reach any pixels of the image that way.
 Since you are passing the address of your variables here,
 you don't need to initialize them, the function will do it for you. */
 
-void	image_init(t_vars *vars)
+void	address_finder_2(t_vars *vars)
 {
-	vars->fimg_ptr = mlx_new_image(vars->mlx_ptr,
-			vars->x_map * PIXEL, vars->y_map * PIXEL);
-	vars->p_init.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
-			"./images/P_INIT1.xpm", &vars->p_init.x, &vars->p_init.y);
-	vars->wall.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
-			"./images/WALL.xpm", &vars->wall.x, &vars->wall.y);
-	vars->collect.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
-			"./images/ORB.xpm", &vars->collect.x, &vars->collect.y);
-	vars->floor.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
-			"./images/FLOOR.xpm", &vars->floor.x, &vars->floor.y);
-	vars->exit.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
-			"./images/EXIT1.xpm", &vars->exit.x, &vars->exit.y);
-	vars->fimg_address = mlx_get_data_addr(vars->fimg_ptr,
-			&vars->bpp, &vars->line_len, &vars->endian);
-	vars->p_init.addr = mlx_get_data_addr(vars->p_init.img_ptr,
-			&vars->p_init.bpp, &vars->p_init.line_len, &vars->p_init.endian);
+	vars->collect[0].addr = mlx_get_data_addr(vars->collect[0].img_ptr,
+			&vars->collect[0].bpp, &vars->collect[0].line_len,
+			&vars->collect[0].endian);
+	vars->collect[1].addr = mlx_get_data_addr(vars->collect[1].img_ptr,
+			&vars->collect[1].bpp, &vars->collect[1].line_len,
+			&vars->collect[1].endian);
+	vars->collect[2].addr = mlx_get_data_addr(vars->collect[2].img_ptr,
+			&vars->collect[2].bpp, &vars->collect[2].line_len,
+			&vars->collect[2].endian);
 	vars->wall.addr = mlx_get_data_addr(vars->wall.img_ptr,
 			&vars->wall.bpp, &vars->wall.line_len, &vars->wall.endian);
-	vars->collect.addr = mlx_get_data_addr(vars->collect.img_ptr,
-			&vars->collect.bpp, &vars->collect.line_len, &vars->collect.endian);
 	vars->floor.addr = mlx_get_data_addr(vars->floor.img_ptr,
 			&vars->floor.bpp, &vars->floor.line_len, &vars->floor.endian);
 	vars->exit.addr = mlx_get_data_addr(vars->exit.img_ptr, &vars->exit.bpp,
 			&vars->exit.line_len, &vars->exit.endian);
+	vars->enemy.addr = mlx_get_data_addr(vars->enemy.img_ptr, &vars->enemy.bpp,
+			&vars->enemy.line_len, &vars->enemy.endian);
+	return ;
+}
+
+void	address_finder(t_vars *vars)
+{
+	vars->fimg_address = mlx_get_data_addr(vars->fimg_ptr,
+			&vars->bpp, &vars->line_len, &vars->endian);
+	vars->p_init.addr = mlx_get_data_addr(vars->p_init.img_ptr,
+			&vars->p_init.bpp, &vars->p_init.line_len, &vars->p_init.endian);
+	vars->p_left.addr = mlx_get_data_addr(vars->p_left.img_ptr,
+			&vars->p_left.bpp, &vars->p_left.line_len, &vars->p_left.endian);
+	vars->p_up.addr = mlx_get_data_addr(vars->p_up.img_ptr,
+			&vars->p_up.bpp, &vars->p_up.line_len, &vars->p_up.endian);
+	vars->p_down.addr = mlx_get_data_addr(vars->p_down.img_ptr,
+			&vars->p_down.bpp, &vars->p_down.line_len, &vars->p_down.endian);
+	address_finder_2(vars);
 	image_to_window(vars, 0, -1);
+}
+
+void	image_init_2(t_vars *vars)
+{
+	vars->collect[0].img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/ORB1.xpm", &vars->collect[0].x, &vars->collect[0].y);
+	vars->collect[1].img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/ORB2.xpm", &vars->collect[1].x, &vars->collect[1].y);
+	vars->collect[2].img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/ORB3.xpm", &vars->collect[2].x, &vars->collect[2].y);
+	vars->wall.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/WALL.xpm", &vars->wall.x, &vars->wall.y);
+	vars->floor.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/FLOOR.xpm", &vars->floor.x, &vars->floor.y);
+	vars->exit.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/EXIT1.xpm", &vars->exit.x, &vars->exit.y);
+	vars->enemy.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/ENEMY.xpm", &vars->enemy.x, &vars->enemy.y);
+	return ;
+}
+
+void	image_init_1(t_vars *vars)
+{
+	vars->fimg_ptr = mlx_new_image(vars->mlx_ptr,
+			vars->x_map * PIXEL, vars->y_map * PIXEL);
+	vars->p_init.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/P_INIT.xpm", &vars->p_init.x, &vars->p_init.y);
+	vars->p_left.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/LEFT.xpm", &vars->p_left.x, &vars->p_left.y);
+	vars->p_up.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/UP2.xpm", &vars->p_up.x, &vars->p_up.y);
+	vars->p_down.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/DOWN1.xpm", &vars->p_down.x, &vars->p_down.y);
+	image_init_2(vars);
+	address_finder(vars);
 }
 
 /*

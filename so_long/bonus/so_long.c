@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 14:21:18 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/05 15:49:04 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/07 17:01:09 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ an error.*/
 program must exit in a clean way,
 and return "Error\n" followed by an explicit error message of choice.*/
 
-#include "../includes/so_long.h"
+#include "../includes/so_long_bonus.h"
 
 void	open_ber_file(char *str, t_vars *vars)
 {
@@ -71,7 +71,7 @@ void	open_ber_file(char *str, t_vars *vars)
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_putstr_fd("Error opening the file\n", 2);
+		ft_putstr_fd("\033[0;31mError opening the file\n\033[0;31m", 2);
 		exit (1);
 	}
 	while (fd)
@@ -97,7 +97,7 @@ void	ber_file(char *str)
 			return ;
 		str++;
 	}
-	ft_putstr_fd("Invalid .ber file\n", 2);
+	ft_putstr_fd("\033[0;31mInvalid .ber file\n\033[0;31m", 2);
 	exit(1);
 }
 
@@ -117,7 +117,7 @@ int	main(int ac, char **av)
 	open_ber_file(av[1], &vars);
 	map_checker(&vars);
 	window_init(&vars);
-	image_init(&vars);
+	image_init_1(&vars);
 	ft_hook(&vars);
 	return (0);
 }

@@ -6,11 +6,11 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:16:36 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/05 17:36:00 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:54:54 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/so_long.h"
+#include "../includes/so_long_bonus.h"
 
 /*
 int mlx_destroy_image(void *mlx_ptr, void *img_ptr)
@@ -18,7 +18,7 @@ int mlx_destroy_window(void *mlx_ptr, void *win_ptr)
 int mlx_destroy_display(void *mlx_ptr)
 */
 
-int	end_game(t_vars *vars)
+int	end_game(t_vars *vars, int flag)
 {
 	int	y;
 
@@ -30,12 +30,15 @@ int	end_game(t_vars *vars)
 	mlx_destroy_image(vars->mlx_ptr, vars->p_init.img_ptr);
 	mlx_destroy_image(vars->mlx_ptr, vars->wall.img_ptr);
 	mlx_destroy_image(vars->mlx_ptr, vars->exit.img_ptr);
-	mlx_destroy_image(vars->mlx_ptr, vars->collect.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->collect[0].img_ptr);
 	mlx_destroy_image(vars->mlx_ptr, vars->floor.img_ptr);
 	mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
 	mlx_destroy_display(vars->mlx_ptr);
 	free(vars->mlx_ptr);
-	ft_putstr_fd("Success!\n", 1);
+	if (flag == 1)
+		ft_putstr_fd("\033[0;32mSuccess, YOU WON!\n\033[0;32m", 1);
+	else if (flag == 0)
+		ft_putstr_fd("\033[0;31mYou lose, GAME OVER!\n\033[0;31m", 1);
 	exit (0);
 	return (1);
 }
@@ -59,8 +62,32 @@ int	key_press_handler(int keycode, t_vars *vars)
 	else if (keycode == 100)
 		move_right(vars);
 	else if (keycode == 65307)
-		end_game(vars);
+		end_game(vars, -1);
 	return (1);
+}
+
+// int	enemy_orbs(t_vars *vars)
+// {
+
+// }
+
+/*
+int mlx_string_put(void *mlx_ptr, void *win_ptr, int x, int y, int color,
+	char *string);
+Parameters for mlx_string_put() have the same meaning.
+Instead of a simple pixel, the specified string will be displayed at (x, y).
+*/
+
+void	ft_write_move(t_vars *vars)
+{
+	char	*move_str;
+	char	*to_print;
+
+	move_str = ft_itoa(vars->move);
+	to_print = ft_strjoin("Move: ", move_str);
+	mlx_string_put(vars->mlx_ptr, vars->win_ptr, 15, 30, 0xffffff, to_print);
+	free(move_str);
+	free(to_print);
 }
 
 /*
@@ -92,6 +119,13 @@ KeyPressMask => 1L<<0
 */
 
 /*
+int mlx_loop_hook(void *mlx_ptr, int (*funct_ptr)(), void *param);
+The syntax for the mlx_loop_hook () function is identical but  the
+given function will be called when no event occurs.
+	loop_hook(void *param);
+*/
+
+/*
 int mlx_loop ( void *mlx_ptr );
 To receive events, you must use mlx_loop ().
 This function never returns.
@@ -102,8 +136,9 @@ A single parameter is needed, the connection identifier mlx_ptr
 
 void	ft_hook(t_vars *vars)
 {
-	ft_printf("Move: 0\n");
+	ft_write_move(vars);
 	mlx_hook(vars->win_ptr, 2, 1L, key_press_handler, vars);
 	mlx_hook(vars->win_ptr, 17, 1L, end_game, vars);
+	// mlx_loop_hook(vars->win_ptr, enemy_orbs, vars);
 	mlx_loop(vars->mlx_ptr);
 }

@@ -6,11 +6,11 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:11:37 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/06 21:25:45 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/07 18:52:16 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/so_long.h"
+#include "../includes/so_long_bonus.h"
 
 void	ft_free(char **temp)
 {
@@ -64,9 +64,9 @@ void	check_positions(t_vars *vars)
 	int	x;
 	int	y;
 
-	y = 0;
+	y = -1;
 	vars->move = 0;
-	while (vars->map[y])
+	while (vars->map[++y])
 	{
 		x = 0;
 		while (vars->map[y][x])
@@ -76,9 +76,13 @@ void	check_positions(t_vars *vars)
 				vars->x_p = x;
 				vars->y_p = y;
 			}
+			else if (vars->map[y][x] == 'B')
+			{
+				vars->x_e = x;
+				vars->y_e = y;
+			}
 			x++;
 		}
-		y++;
 	}
 }
 
