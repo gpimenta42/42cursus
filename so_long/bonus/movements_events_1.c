@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:16:36 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/07 18:54:54 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/08 21:32:52 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	end_game(t_vars *vars, int flag)
 	mlx_destroy_image(vars->mlx_ptr, vars->p_init.img_ptr);
 	mlx_destroy_image(vars->mlx_ptr, vars->wall.img_ptr);
 	mlx_destroy_image(vars->mlx_ptr, vars->exit.img_ptr);
-	mlx_destroy_image(vars->mlx_ptr, vars->collect[0].img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->collect1.img_ptr);
 	mlx_destroy_image(vars->mlx_ptr, vars->floor.img_ptr);
 	mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
 	mlx_destroy_display(vars->mlx_ptr);
@@ -66,10 +66,126 @@ int	key_press_handler(int keycode, t_vars *vars)
 	return (1);
 }
 
-// int	enemy_orbs(t_vars *vars)
-// {
+void	move_up_enemy(t_vars *vars)
+{
+	if (vars->map[vars->y_e - 1][vars->x_e] == '1' ||
+		vars->map[vars->y_e - 1][vars->x_e] == 'E' ||
+		vars->map[vars->y_e - 1][vars->x_e] == 'C' ||
+		vars->map[vars->y_e - 1][vars->x_e] == 'B')
+		return ;
+	if (vars->map[vars->y_e - 1][vars->x_e] == 'P')
+		end_game(vars, 0);
+	vars->map[vars->y_e][vars->x_e] = '0';
+	vars->map[vars->y_e - 1][vars->x_e] = 'B';
+	texture_loading(&vars->floor, vars, vars->x_e, vars->y_e);
+	texture_loading(&vars->floor, vars, vars->x_e, vars->y_e - 1);
+	texture_loading(&vars->enemy, vars, vars->x_e, vars->y_e - 1);
+	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->fimg_ptr, 0, 0);
+	vars->y_e--;
+}
 
-// }
+void	move_down_enemy(t_vars *vars)
+{
+	if (vars->map[vars->y_e + 1][vars->x_e] == '1' ||
+		vars->map[vars->y_e + 1][vars->x_e] == 'E' ||
+		vars->map[vars->y_e + 1][vars->x_e] == 'C' ||
+		vars->map[vars->y_e + 1][vars->x_e] == 'B')
+		return ;
+	if (vars->map[vars->y_e + 1][vars->x_e] == 'P')
+		end_game(vars, 0);
+	vars->map[vars->y_e][vars->x_e] = '0';
+	vars->map[vars->y_e + 1][vars->x_e] = 'B';
+	texture_loading(&vars->floor, vars, vars->x_e, vars->y_e);
+	texture_loading(&vars->floor, vars, vars->x_e, vars->y_e + 1);
+	texture_loading(&vars->enemy, vars, vars->x_e, vars->y_e + 1);
+	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->fimg_ptr, 0, 0);
+	vars->y_e++;
+}
+
+void	move_right_enemy(t_vars *vars)
+{
+	if (vars->map[vars->y_e][vars->x_e + 1] == '1' ||
+		vars->map[vars->y_e][vars->x_e + 1] == 'E' ||
+		vars->map[vars->y_e][vars->x_e + 1] == 'C' ||
+		vars->map[vars->y_e][vars->x_e + 1] == 'B')
+		return ;
+	if (vars->map[vars->y_e][vars->x_e + 1] == 'P')
+		end_game(vars, 0);
+	vars->map[vars->y_e][vars->x_e] = '0';
+	vars->map[vars->y_e][vars->x_e + 1] = 'B';
+	texture_loading(&vars->floor, vars, vars->x_e, vars->y_e);
+	texture_loading(&vars->floor, vars, vars->x_e + 1, vars->y_e);
+	texture_loading(&vars->enemy, vars, vars->x_e + 1, vars->y_e);
+	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->fimg_ptr, 0, 0);
+	vars->x_e++;
+}
+
+void	move_left_enemy(t_vars *vars)
+{
+	if (vars->map[vars->y_e][vars->x_e - 1] == '1' ||
+		vars->map[vars->y_e][vars->x_e - 1] == 'E' ||
+		vars->map[vars->y_e][vars->x_e - 1] == 'C' ||
+		vars->map[vars->y_e][vars->x_e - 1] == 'B')
+		return ;
+	if (vars->map[vars->y_e][vars->x_e - 1] == 'P')
+		end_game(vars, 0);
+	vars->map[vars->y_e][vars->x_e] = '0';
+	vars->map[vars->y_e][vars->x_e - 1] = 'B';
+	texture_loading(&vars->floor, vars, vars->x_e, vars->y_e);
+	texture_loading(&vars->floor, vars, vars->x_e - 1, vars->y_e);
+	texture_loading(&vars->enemy, vars, vars->x_e - 1, vars->y_e);
+	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->fimg_ptr, 0, 0);
+	vars->x_e--;
+}
+
+
+void	enemy_movement(t_vars *vars)
+{
+	static int	i;
+
+	if (i == 800)
+	{
+		while (vars->list)
+		{
+			if (vars->x_p > vars->x_e)
+				move_right_enemy(vars);
+			else if (vars->x_p < vars->x_e)
+				move_left_enemy(vars);
+			vars->list = vars->list.next;
+		}
+	}
+	else if (i == 1600)
+	{
+		if (vars->y_p > vars->y_e)
+			move_down_enemy(vars);
+		else if (vars->y_p < vars->y_e)
+			move_up_enemy(vars);
+	}
+	else if (i == 2400)
+		i = 0;
+	i++;
+}
+
+int	orbs(t_vars *vars)
+{
+	static int	i;
+
+	ft_write_move(vars);
+	enemy_movement(vars);
+	if (i < 250)
+		orbs_to_window(vars, 0);
+	else if (i < 500)
+		orbs_to_window(vars, 1);
+	else if (i < 750)
+		orbs_to_window(vars, 2);
+	else if (i < 1000)
+		orbs_to_window(vars, 3);
+	if (i == 1000)
+		i = 0;
+	ft_write_move(vars);
+	i++;
+	return (1);
+}
 
 /*
 int mlx_string_put(void *mlx_ptr, void *win_ptr, int x, int y, int color,
@@ -139,6 +255,7 @@ void	ft_hook(t_vars *vars)
 	ft_write_move(vars);
 	mlx_hook(vars->win_ptr, 2, 1L, key_press_handler, vars);
 	mlx_hook(vars->win_ptr, 17, 1L, end_game, vars);
-	// mlx_loop_hook(vars->win_ptr, enemy_orbs, vars);
+	mlx_loop_hook(vars->mlx_ptr, orbs, vars);
 	mlx_loop(vars->mlx_ptr);
 }
+	// mlx_loop_hook(vars->win_ptr, enemy, vars);

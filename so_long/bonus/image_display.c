@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:13:05 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/07 19:44:09 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/08 19:47:33 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,35 @@ Three identifiers are connection to display, the window to use,and image.
 The (x , y) coordinates define where the image should be placed in the window.
 */
 
+void	orbs_to_window(t_vars *vars, int flag)
+{
+	int	y;
+	int	x;
+
+	y = -1;
+	while (vars->map[++y])
+	{
+		x = 0;
+		while (vars->map[y][x])
+		{
+			if (vars->map[y][x] == 'C')
+			{
+				texture_loading(&vars->floor, vars, x, y);
+				if (flag == 0)
+					texture_loading(&vars->collect0, vars, x, y);
+				else if (flag == 1)
+					texture_loading(&vars->collect1, vars, x, y);
+				else if (flag == 2)
+					texture_loading(&vars->collect2, vars, x, y);
+				else if (flag == 3)
+					texture_loading(&vars->collect3, vars, x, y);
+			}
+			x++;
+		}
+	}
+	mlx_put_image_to_window(vars->mlx_ptr, vars->win_ptr, vars->fimg_ptr, 0, 0);
+}
+
 void	image_to_window(t_vars *vars, int x, int y)
 {
 	while (vars->map[++y])
@@ -75,7 +104,7 @@ void	image_to_window(t_vars *vars, int x, int y)
 				if (vars->map[y][x] == 'P')
 					texture_loading(&vars->p_init, vars, x, y);
 				else if (vars->map[y][x] == 'C')
-					texture_loading(&vars->collect[0], vars, x, y);
+					texture_loading(&vars->collect1, vars, x, y);
 				else if (vars->map[y][x] == 'B')
 					texture_loading(&vars->enemy, vars, x, y);
 			}
@@ -130,15 +159,18 @@ you don't need to initialize them, the function will do it for you. */
 
 void	address_finder_2(t_vars *vars)
 {
-	vars->collect[0].addr = mlx_get_data_addr(vars->collect[0].img_ptr,
-			&vars->collect[0].bpp, &vars->collect[0].line_len,
-			&vars->collect[0].endian);
-	vars->collect[1].addr = mlx_get_data_addr(vars->collect[1].img_ptr,
-			&vars->collect[1].bpp, &vars->collect[1].line_len,
-			&vars->collect[1].endian);
-	vars->collect[2].addr = mlx_get_data_addr(vars->collect[2].img_ptr,
-			&vars->collect[2].bpp, &vars->collect[2].line_len,
-			&vars->collect[2].endian);
+	vars->collect0.addr = mlx_get_data_addr(vars->collect0.img_ptr,
+			&vars->collect0.bpp, &vars->collect0.line_len,
+			&vars->collect0.endian);
+	vars->collect1.addr = mlx_get_data_addr(vars->collect1.img_ptr,
+			&vars->collect1.bpp, &vars->collect1.line_len,
+			&vars->collect1.endian);
+	vars->collect2.addr = mlx_get_data_addr(vars->collect2.img_ptr,
+			&vars->collect2.bpp, &vars->collect2.line_len,
+			&vars->collect2.endian);
+	vars->collect3.addr = mlx_get_data_addr(vars->collect3.img_ptr,
+			&vars->collect3.bpp, &vars->collect3.line_len,
+			&vars->collect3.endian);
 	vars->wall.addr = mlx_get_data_addr(vars->wall.img_ptr,
 			&vars->wall.bpp, &vars->wall.line_len, &vars->wall.endian);
 	vars->floor.addr = mlx_get_data_addr(vars->floor.img_ptr,
@@ -168,12 +200,14 @@ void	address_finder(t_vars *vars)
 
 void	image_init_2(t_vars *vars)
 {
-	vars->collect[0].img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
-			"./images/ORB1.xpm", &vars->collect[0].x, &vars->collect[0].y);
-	vars->collect[1].img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
-			"./images/ORB2.xpm", &vars->collect[1].x, &vars->collect[1].y);
-	vars->collect[2].img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
-			"./images/ORB3.xpm", &vars->collect[2].x, &vars->collect[2].y);
+	vars->collect0.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/ORB.xpm", &vars->collect0.x, &vars->collect0.y);
+	vars->collect1.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/ORB1.xpm", &vars->collect1.x, &vars->collect1.y);
+	vars->collect2.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/ORB2.xpm", &vars->collect2.x, &vars->collect2.y);
+	vars->collect3.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
+			"./images/ORB3.xpm", &vars->collect3.x, &vars->collect3.y);
 	vars->wall.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
 			"./images/WALL.xpm", &vars->wall.x, &vars->wall.y);
 	vars->floor.img_ptr = mlx_xpm_file_to_image(vars->mlx_ptr,
