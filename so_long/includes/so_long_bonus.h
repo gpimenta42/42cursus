@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 13:50:27 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/07 18:43:40 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/08 21:30:43 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ typedef struct s_flood
 	int	check_c;
 	int	check_e;
 }	t_flood;
+
+typedef struct s_list
+{
+	int		x_e;
+	int		y_e;
+	t_list	*next;
+}	t_list;
 
 typedef struct s_img
 {
@@ -67,9 +74,13 @@ typedef struct s_vars
 	t_img	p_down;
 	t_img	wall;
 	t_img	floor;
-	t_img	collect[3];
+	t_img	collect0;
+	t_img	collect1;
+	t_img	collect2;
+	t_img	collect3;
 	t_img	enemy;
 	t_img	exit;
+	t_list	*list;
 }	t_vars;
 
 /*map validation*/
@@ -89,6 +100,7 @@ void	map_checker(t_vars *vars);
 void	window_init(t_vars *vars);
 void	put_pixel_to_window(t_vars *vars, int x, int y, unsigned int color);
 void	texture_loading(t_img *type, t_vars *vars, int x_pos, int y_pos);
+void	orbs_to_window(t_vars *vars, int flag);
 void	image_to_window(t_vars *vars, int x, int y);
 void	image_init_1(t_vars *vars);
 void	image_init_2(t_vars *vars);
@@ -103,6 +115,7 @@ void	move_left(t_vars *vars);
 void	move_right(t_vars *vars);
 int		end_game(t_vars *vars, int flag);
 int		key_press_handler(int keycode, t_vars *vars);
+int		orbs(t_vars *vars);
 void	ft_hook(t_vars *vars);
 
 #endif
