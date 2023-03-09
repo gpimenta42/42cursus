@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 14:21:18 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/05 15:49:04 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/09 12:59:14 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,12 @@
 
 /* The player’s goal is to collect every collectible present on the map,
 then escape chosing the shortest possible route.*/
-
 /* turn in files: Makefile, *.h, *.c, maps, textures*/
-
 /* The W, A, S, and D keys must be used to move the main character*/
-
 /* The player should not be able to move into walls. */
-
 /* At every move, the current number of movements must be displayed in shell.*/
-
 /* The management of your window must remain smooth
 (changing to another window, minimizing, and so forth)*/
-
 /* Arguments A map in format *.ber*/
 /* Your program has to take as parameter a map description file ending with .ber
 extension.*/
@@ -34,27 +28,20 @@ extension.*/
 
 /* The map has to be constructed with 3 cpms: walls, collectibles, and free
 space*/
-
 /* The map can be composed of only these 5 characters:
 0 for an empty space,
 1 for a wall,
 C for a collectible,
 E for a map exit,
 P for the player’s starting position*/
-
 /* If the map contains a duplicates characters (exit/start), you should
 display an error message.*/
-
 /* The map must be rectangular*/
-
 /* The map must be closed/surrounded by walls.
 If it’s not, the program must return
 an error.*/
-
 /* You have to check if there’s a valid path in the map.*/
-
 /* You must be able to parse any kind of map, */
-
 /* If any misconfiguration of any kind is encountered in the file,
 program must exit in a clean way,
 and return "Error\n" followed by an explicit error message of choice.*/
@@ -121,11 +108,3 @@ int	main(int ac, char **av)
 	ft_hook(&vars);
 	return (0);
 }
-
-/*BONUS*/
-
-/*Extra points if:
--> Display the movement count on screen instead of writing it in the shell.
--> Make the player lose when they touch an enemy patrol.
--> Add some sprite animation.
-*/
