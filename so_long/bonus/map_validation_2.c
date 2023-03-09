@@ -6,21 +6,11 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:11:37 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/08 21:30:51 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/09 11:35:56 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long_bonus.h"
-
-void	ft_free(char **temp)
-{
-	int	y;
-
-	y = -1;
-	while (temp[++y])
-		free(temp[y]);
-	free(temp);
-}
 
 int	check_collectable_reachable(char **temp)
 {
@@ -59,48 +49,29 @@ void	flood_fill(t_vars *vars, int y, int x, char **temp)
 	flood_fill(vars, y, x - 1, temp);
 }
 
-t_list	new_node(int x, int y)
+void	check_enemy(t_vars *vars, int size, int i, int y)
 {
-	t_list	new_node;
+	int	x;
 
-	new_node = malloc(sizeof(t_list));
-	if (!new_node)
-		return (NULL);
-	new_node.x = x;
-	new_node.y = y;
-	new_node.next = 0;
-	return (new_node);
-}
-
-void	add_list(int x, int y, t_list *list)
-{
-	t_list	*tmp;
-
-	if (!list)
+	vars->array_x_e = malloc(sizeof(int) * size);
+	if (!vars->array_x_e)
+		return ;
+	vars->array_y_e = malloc(sizeof(int) * size);
+	if (!vars->array_y_e)
 	{
-		list = new_node(x, y);
+		free (vars->array_x_e);
 		return ;
 	}
-	tmp = list;
-	else
-	{
-		while (tmp->next != 0)
-			tmp = tmp->next;
-		tmp->next = new_node;
-	}
-}
-
-void	check_enemy(t_vars *vars)
-{
-
-	y = -1;
 	while (vars->map[++y])
 	{
 		x = 0;
 		while (vars->map[y][x])
 		{
 			if (vars->map[y][x] == 'B')
-				new_node(x, y, vars->list);
+			{
+				vars->array_x_e[++i] = x;
+				vars->array_y_e[i] = y;
+			}
 			x++;
 		}
 	}
@@ -110,8 +81,10 @@ void	check_positions(t_vars *vars)
 {
 	int	x;
 	int	y;
+	int	size;
 
 	y = -1;
+	size = 0;
 	vars->move = 0;
 	while (vars->map[++y])
 	{
@@ -123,15 +96,12 @@ void	check_positions(t_vars *vars)
 				vars->x_p = x;
 				vars->y_p = y;
 			}
-			// else if (vars->map[y][x] == 'B')
-			// {
-			// 	vars->x_e = x;
-			// 	vars->y_e = y;
-			// }
+			else if (vars->map[y][x] == 'B')
+				size++;
 			x++;
 		}
 	}
-	check_enemy(vars);
+	check_enemy(vars, size, -1, -1);
 }
 
 int	valid_path_checker(t_vars *vars)

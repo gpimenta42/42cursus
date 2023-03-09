@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 14:21:18 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/08 18:54:38 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/09 11:38:24 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,41 @@ program must exit in a clean way,
 and return "Error\n" followed by an explicit error message of choice.*/
 
 #include "../includes/so_long_bonus.h"
+
+void	ft_free_end(t_vars *vars, int y)
+{
+	mlx_destroy_image(vars->mlx_ptr, vars->fimg_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->p_init.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->p_left.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->p_up.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->p_down.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->wall.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->exit.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->collect0.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->collect1.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->collect2.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->collect3.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->enemy.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->floor.img_ptr);
+	mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
+	mlx_destroy_display(vars->mlx_ptr);
+	free(vars->mlx_ptr);
+	while (vars->map[++y])
+		free(vars->map[y]);
+	free(vars->map);
+	free(vars->array_x_e);
+	free(vars->array_y_e);
+}
+
+void	ft_free(char **temp)
+{
+	int	y;
+
+	y = -1;
+	while (temp[++y])
+		free(temp[y]);
+	free(temp);
+}
 
 void	open_ber_file(char *str, t_vars *vars)
 {
