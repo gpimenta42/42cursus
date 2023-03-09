@@ -6,11 +6,30 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:17:45 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/09 12:03:01 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/09 13:12:50 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/so_long_bonus.h"
+
+/*
+int mlx_string_put(void *mlx_ptr, void *win_ptr, int x, int y, int color,
+	char *string);
+Parameters for mlx_string_put() have the same meaning.
+Instead of a simple pixel, the specified string will be displayed at (x, y).
+*/
+
+void	ft_write_move(t_vars *vars)
+{
+	char	*move_str;
+	char	*to_print;
+
+	move_str = ft_itoa(vars->move);
+	to_print = ft_strjoin("Move: ", move_str);
+	mlx_string_put(vars->mlx_ptr, vars->win_ptr, 15, 30, 0xffffff, to_print);
+	free(move_str);
+	free(to_print);
+}
 
 void	move_up(t_vars *vars)
 {

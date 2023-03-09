@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   movements_events_1.c                               :+:      :+:    :+:   */
+/*   events_handler_1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:16:36 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/09 11:38:20 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/09 13:28:35 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,31 @@ int mlx_destroy_image(void *mlx_ptr, void *img_ptr)
 int mlx_destroy_window(void *mlx_ptr, void *win_ptr)
 int mlx_destroy_display(void *mlx_ptr)
 */
+
+void	ft_free_end(t_vars *vars, int y)
+{
+	mlx_destroy_image(vars->mlx_ptr, vars->fimg_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->p_init.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->p_left.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->p_up.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->p_down.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->wall.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->exit.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->collect0.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->collect1.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->collect2.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->collect3.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->enemy.img_ptr);
+	mlx_destroy_image(vars->mlx_ptr, vars->floor.img_ptr);
+	mlx_destroy_window(vars->mlx_ptr, vars->win_ptr);
+	mlx_destroy_display(vars->mlx_ptr);
+	free(vars->mlx_ptr);
+	while (vars->map[++y])
+		free(vars->map[y]);
+	free(vars->map);
+	free(vars->array_x_e);
+	free(vars->array_y_e);
+}
 
 int	end_game(t_vars *vars, int flag)
 {
@@ -57,7 +82,8 @@ int	orbs(t_vars *vars)
 	static int	i;
 
 	ft_write_move(vars);
-	enemy_movement(vars, -1);
+	if (vars->e_counter)
+		enemy_movement(vars, -1);
 	if (i < 250)
 		orbs_to_window(vars, 0);
 	else if (i < 500)
@@ -71,25 +97,6 @@ int	orbs(t_vars *vars)
 	ft_write_move(vars);
 	i++;
 	return (1);
-}
-
-/*
-int mlx_string_put(void *mlx_ptr, void *win_ptr, int x, int y, int color,
-	char *string);
-Parameters for mlx_string_put() have the same meaning.
-Instead of a simple pixel, the specified string will be displayed at (x, y).
-*/
-
-void	ft_write_move(t_vars *vars)
-{
-	char	*move_str;
-	char	*to_print;
-
-	move_str = ft_itoa(vars->move);
-	to_print = ft_strjoin("Move: ", move_str);
-	mlx_string_put(vars->mlx_ptr, vars->win_ptr, 15, 30, 0xffffff, to_print);
-	free(move_str);
-	free(to_print);
 }
 
 /*

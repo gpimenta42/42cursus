@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:13:05 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/09 11:34:16 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/09 13:15:40 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,11 @@ void	window_init(t_vars *vars)
 	mlx_get_screen_size(vars->mlx_ptr, &sizex, &sizey);
 	if (vars->y_map * PIXEL > sizey || vars->x_map * PIXEL > sizex)
 	{
+		ft_printf("\033[0;31mMap too big\n\033[0;31m");
 		ft_free(vars->map);
+		free(vars->array_x_e);
+		free(vars->array_y_e);
+		mlx_destroy_display(vars->mlx_ptr);
 		free(vars->mlx_ptr);
 		exit (0);
 	}
