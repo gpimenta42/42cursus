@@ -38,18 +38,18 @@ $(NAME):	$(OBJ)
 bonus:		$(BONUS_OBJ)
 			make -s -C $(LIBFTDIR)
 			make -s -C $(LIBMLXDIR)
-
 			$(CC) $(CFLAGS) $(BONUS_OBJ) $(INCLUDE) $(LIBFT) $(LIBMLX) $(LFLAGS) -o $(NAME)
 			@echo "\033[0;32m$(NAME) bonus successfully compiled!\033[0;32m"
 
 test:
-			valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./$(NAME) maps/map.ber
+			valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./$(NAME) maps/bigmap_bonus.ber
 
 clean:
 			@make clean -s -C $(LIBFTDIR)
 			@make clean -s -C $(LIBMLXDIR)
 			rm -rf $(OBJ)
 			rm -rf $(BONUS_OBJ)
+			rm -rf valgrind-out.txt
 
 fclean:		clean
 			rm -rf $(LIBFT)
