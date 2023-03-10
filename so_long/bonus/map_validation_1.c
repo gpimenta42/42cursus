@@ -47,7 +47,8 @@ int	composition_checker(t_vars *vars, int x, int y)
 		}
 		x = 0;
 	}
-	if (vars->p_counter > 1 || vars->e_counter > 1 || vars->c_counter == 0)
+	if (vars->p_counter > 1 || vars->e_counter > 1 || vars->c_counter == 0
+	   || | vars->p_counter == 0)
 		return (0);
 	return (1);
 }
