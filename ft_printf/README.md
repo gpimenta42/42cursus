@@ -1,15 +1,1 @@
-## Objective
-                    
-To recode the printf() function from libc. The prototype of ft_printf() is:
-
-- int    ft_printf(const char *, ...);
-
-To implement the following conversions:
-- %c Prints a single character.
-- %s Prints a string (as defined by the common C convention).
-- %p The void * pointer argument has to be printed in hexadecimal format. • %d Prints a decimal (base 10) number.
-- %i Prints an integer in base 10.
-- %u Prints an unsigned decimal (base 10) number.
-- %x Prints a number in hexadecimal (base 16) lowercase format.
-- %X Prints a number in hexadecimal (base 16) uppercase format.
-- %% Prints a percent sign.
+![Recording 2023-03-10 at 16 09 29](https://user-images.githubusercontent.com/87911989/224365916-ee8ac2ef-2baa-4f16-922e-588646fa5453.gif)
