@@ -1,6 +1,4 @@
-Here are the programs / functions i created to practice for exam-rank-2 at 42School 🤓
-
-They are sorted by topic and in ascending order of difficulty. 
+Exes sorted by topic and in ascending order of difficulty. 
 
 ### String manipulation 
 (including malloc, and structs)
