@@ -64,30 +64,84 @@ when reading from a binary file.
 
 #include "get_next_line.h"
 
+int	ft_strlen(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (i);
+	while (s[i] != '\0' && s[i] != '\n')
+		i++;
+	return (i);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char		*str;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 2));
+	if (!str)
+		return (0);
+	if (s1)
+	{
+		
+		while (s1[i])
+		{
+			str[i] = s1[i];
+			i++;
+		}
+		free(s1);
+	}
+	while (s2[j] && s2[j] != '\n')
+		str[i++] = s2[j++];
+	if (s2[j] == '\n')
+		str[i++] = '\n';
+	str[i] = '\0';
+	return (str);
+}
+
+int	ft_clean(char *str)
+{
+	int	i;
+	int	j;
+	int	flag;
+
+	i = 0;
+	j = 0;
+	flag = 0;
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			flag = 1;
+		str[i] = '\0';
+		i++;
+		if (flag == 1)
+		{
+			str[j] = str[i];
+			j++;
+		}
+	}
+	return (flag);
+}
+
 char	*get_next_line(int fd)
 {
-	int		n;
-	int		i;
-	char	c;
-	char	*buffer;
+	static char	buffer[BUFFER_SIZE + 1];
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return NULL;
-	buffer = malloc(10000);
-	n = read(fd, &c, 1);
-	i = -1;
-	while (n > 0)
+	line = 0;
+	while (buff[0] || read(fd, buffer, BUFFER_SIZE))
 	{
-		buffer[++i] = c;
-		if (buffer[i] == '\n')
+		line = strjoin(line, buffer);
+		if (clean_save(buffer))
 			break ;
-		n = read(fd, &c, 1);
 	}
-	if ((n == 0 && i == -1) || n < 0)
-	{
-		free (buffer);
-		return NULL;
-	}
-	buffer[++i] = '\0';
 	return (buffer);
 }
