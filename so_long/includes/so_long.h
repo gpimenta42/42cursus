@@ -6,24 +6,19 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 13:50:27 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/05 15:50:10 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/09 13:33:18 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-/*mlx_init*/
 # include "minilibx-linux/mlx.h"
-/*malloc*/
 # include <stdlib.h>
-/*read*/
 # include <unistd.h>
-/*open*/
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-/*coded ft_printf and libft*/
 # include "libft/libft.h"
 
 # define PIXEL 50

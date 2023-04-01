@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 13:50:27 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/03/08 21:30:43 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/03/09 12:49:07 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,6 @@ typedef struct s_flood
 	int	check_c;
 	int	check_e;
 }	t_flood;
-
-typedef struct s_list
-{
-	int		x_e;
-	int		y_e;
-	t_list	*next;
-}	t_list;
 
 typedef struct s_img
 {
@@ -80,12 +73,14 @@ typedef struct s_vars
 	t_img	collect3;
 	t_img	enemy;
 	t_img	exit;
-	t_list	*list;
+	int		*array_x_e;
+	int		*array_y_e;
 }	t_vars;
 
 /*map validation*/
 void	ber_file(char *str);
 void	open_ber_file(char *str, t_vars *vars);
+void	check_enemy(t_vars *vars, int size, int i, int y);
 void	check_positions(t_vars *vars);
 void	flood_fill(t_vars *vars, int y, int x, char **temp);
 int		check_collectable_reachable(char **temp);
@@ -113,8 +108,14 @@ void	move_up(t_vars *vars);
 void	move_down(t_vars *vars);
 void	move_left(t_vars *vars);
 void	move_right(t_vars *vars);
+void	ft_free_end(t_vars *vars, int y);
 int		end_game(t_vars *vars, int flag);
 int		key_press_handler(int keycode, t_vars *vars);
+void	move_up_enemy(t_vars *vars, int j);
+void	move_down_enemy(t_vars *vars, int j);
+void	move_left_enemy(t_vars *vars, int j);
+void	move_right_enemy(t_vars *vars, int j);
+void	enemy_movement(t_vars *vars, int j);
 int		orbs(t_vars *vars);
 void	ft_hook(t_vars *vars);
 
