@@ -105,5 +105,7 @@ char	**set_export_env(char *str, char **export_envp)
 		free(name);
 		return (set_export(total, export_envp));
 	}
+	else
+		var = ft_strjoin_2(var, "=\"\"");
 	return (set_export(var, export_envp));
 }
