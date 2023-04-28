@@ -15,7 +15,6 @@
 void	child_single(t_shell *shell)
 {
 	char	**array;
-	int		i;
 
 	if (shell->heredoc_fd)
 	{
@@ -34,7 +33,6 @@ void	child_single(t_shell *shell)
 	}
 	array = command_parser(shell->line);
 	cmd_exec(shell, array, shell->envp);
-	i = -1;
 	free_minishell(shell->line, shell);
 	ft_free_tab(shell->tab);
 	ft_free_tab(array);
