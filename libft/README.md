@@ -1,3 +1,5 @@
+[![gpimenta's 42 Libft Score](https://badge42.vercel.app/api/v2/cldx0plxj00060fl5yi95cgh9/project/2848737)](https://github.com/JaeSeoKim/badge42)
+
 ## Objetive 
 
 To write a C library - a collection of functions.
