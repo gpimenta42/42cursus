@@ -1,3 +1,5 @@
+[![gpimenta's 42 Exam Rank 02 Score](https://badge42.vercel.app/api/v2/cldx0plxj00060fl5yi95cgh9/project/3003521)](https://github.com/JaeSeoKim/badge42)
+
 Exes sorted by topic and in ascending order of difficulty. 
 
 ### String manipulation 
