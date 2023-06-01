@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_map_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaiveca- <jaiveca-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:46:16 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/05/25 14:53:47 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/05/28 16:13:52 by jaiveca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,17 @@ int	walled_checker(void)
 		i = -1;
 		while (cub()->map[j][++i])
 		{
-			if (j == 0 && cub()->map[0][i] != '1' && !is_space(0, i))
+			if (j == 0 && cub()->map[0][i] != '1' && cub()->map[0][i] != '\n'
+			&& !is_space(0, i))
 				return (0);
 			if (check_condition(j, i))
 				return (0);
-			if (j > 0 && cub()->map[j + 1] != 0 && cub()->map[j][i + 1] == '\0'
-			&& cub()->map[j][prev_wall(j, i)] != '1')
+			if (j > 0 && cub()->map[j + 1] != 0
+				&& (cub()->map[j][i + 1] == '\0')
+				&& cub()->map[j][prev_wall(j, i)] != '1')
 				return (0);
 			if (cub()->map[j + 1] == 0 && cub()->map[j][i] != '1'
-			&& (cub()->map[j][i] < 9 || cub()->map[j][i] > 13)
+			&& cub()->map[j][i] != 9 && cub()->map[j][i] != 10
 			&& cub()->map[j][i] != 32)
 				return (0);
 		}
@@ -46,7 +48,7 @@ int	check_char(int j, int i, int condition)
 		if (cub()->map[j][i] != '1' && !is_space(j, i)
 			&& cub()->map[j][i] != '0' && cub()->map[j][i] != 'S'
 			&& cub()->map[j][i] != 'N' && cub()->map[j][i] != 'W'
-				&& cub()->map[j][i] != 'E')
+			&& cub()->map[j][i] != 'E' && cub()->map[j][i] != '\n')
 			return (1);
 	}
 	else if (condition == 1)
@@ -96,9 +98,11 @@ int	map_size(char **all)
 	j = -1;
 	count = 0;
 	flag = 0;
+	cub()->map_line = -1;
 	while (all[++j])
 	{
-		if (all[j][skip_spaces(all, j, 0)] == '1')
+		if (all[j][skip_spaces(all, j, 0)] == '1'
+			|| all[j][skip_spaces(all, j, 0)] == '0')
 		{
 			if (flag == 0)
 			{
@@ -107,6 +111,9 @@ int	map_size(char **all)
 			}
 			count++;
 		}
+		if (cub()->map_line >= 0 && all[j][skip_spaces(all, j, 0)] == '\n')
+			if (check_any_other_wall(all, j))
+				return (-1);
 	}
 	return (count);
 }
@@ -120,6 +127,8 @@ int	map_allocation(char **all)
 	i = -1;
 	cub()->map = NULL;
 	count = map_size(all);
+	if (count == -1)
+		return (0);
 	cub()->map = malloc(sizeof(char *) * (count + 1));
 	if (!cub()->map)
 		return (0);

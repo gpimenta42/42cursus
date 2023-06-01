@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 19:09:13 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/05/25 17:28:30 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/05/28 17:34:46 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,31 +30,9 @@ void	ft_free_int(int	**arr)
 	int	i;
 
 	i = -1;
-	while (++i < 4)
+	while (++i < cub()->txt_i)
 		free(arr[i]);
 	free(arr);
-}
-
-void	free_map_elements(void)
-{
-	if (cub()->rgb_c)
-		free(cub()->rgb_c);
-	if (cub()->rgb_f)
-		free(cub()->rgb_f);
-	if (cub()->no_path)
-		free(cub()->no_path);
-	if (cub()->so_path)
-		free(cub()->so_path);
-	if (cub()->we_path)
-		free(cub()->we_path);
-	if (cub()->ea_path)
-		free(cub()->ea_path);
-	if (cub()->map)
-		ft_free(cub()->map, NULL);
-	if (cub()->all)
-		ft_free(cub()->all, NULL);
-	if (cub()->texture)
-		ft_free_int(cub()->texture);
 }
 
 void	define_constants(void)

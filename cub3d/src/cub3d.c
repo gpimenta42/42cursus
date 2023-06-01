@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaiveca- <jaiveca-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:40:32 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/05/25 17:35:02 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/05/28 16:05:37 by jaiveca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ void	game_init(void)
 		exit (1);
 	}
 	colors_loading();
-	cub()->win = mlx_new_window(cub()->mlx, SCREEN_X, SCREEN_Y, "cub3D");
-	cub()->canvas.img = mlx_new_image(cub()->mlx, SCREEN_X, SCREEN_Y);
-	cub()->canvas.address = mlx_get_data_addr(cub()->canvas.img,
-		&cub()->canvas.bpp, &cub()->canvas.line_length, &cub()->canvas.endian);
+	(cub()->win) = mlx_new_window(cub()->mlx, SCREEN_X, SCREEN_Y, "cub3D");
+	(cub()->canvas.img) = mlx_new_image(cub()->mlx, SCREEN_X, SCREEN_Y);
+	(cub()->canvas.address) = mlx_get_data_addr(cub()->canvas.img,
+			&cub()->canvas.bpp, &cub()->canvas.line_length,
+			&cub()->canvas.endian);
 	vectors();
 	define_constants();
 	mlx_loop_hook(cub()->mlx, drawing, NULL);

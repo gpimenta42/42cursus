@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaiveca- <jaiveca-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:07:33 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/05/25 16:02:30 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/05/28 16:05:21 by jaiveca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	open_file(char *str)
 		txt = ft_strjoin_2(txt, line);
 		free(line);
 	}
-	cub()->all = ft_split(txt, '\n');
+	(cub()->all) = ft_split_include(txt, '\n');
 	free(txt);
 	close (fd);
 	return (1);
@@ -71,6 +71,7 @@ int	valid_elements(char **all)
 			&& ft_strncmp(all[i] + skip_spaces(all, i, 0), "F ", 2)
 			&& ft_strncmp(all[i] + skip_spaces(all, i, 0), "1", 1)
 			&& ft_strncmp(all[i] + skip_spaces(all, i, 0), "0", 1)
+			&& all[i][skip_spaces(all, i, 0)] != '\n'
 			&& all[i][skip_spaces(all, i, 0)] != '\0')
 			return (0);
 	}
@@ -92,9 +93,8 @@ int	parse(char *str)
 	if (!colors_allocator(cub()->all))
 		return (map_error(5));
 	if (!texture_allocator(cub()->all))
-		return (map_error(6));
+		return (map_error(7));
 	ft_free(cub()->all, 0);
 	cub()->all = 0;
 	return (1);
 }
-

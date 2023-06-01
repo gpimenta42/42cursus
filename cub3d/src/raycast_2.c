@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaiveca- <jaiveca-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 18:39:44 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/05/25 16:53:17 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/05/28 14:55:30 by jaiveca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,11 @@ void	calculate_texture_x(void)
 	else
 		wall_x = cub()->pos_x + (cub()->wall_dist * cub()->ray_x);
 	wall_x -= floor(wall_x);
-	cub()->texture_x = (int)(wall_x * (double)cub()->texture_width[cub()->texture_index]);
+	cub()->texture_x = (int)
+	(wall_x * (double)cub()->texture_width[cub()->texture_index]);
 	if (cub()->side == 1 && cub()->ray_y < 0)
-		cub()->texture_x = cub()->texture_width[cub()->texture_index] - cub()->texture_x - 1;
+		cub()->texture_x
+		= cub()->texture_width[cub()->texture_index] - cub()->texture_x - 1;
 }
 
 void	draw_wall_x(int x)
@@ -80,10 +82,12 @@ void	draw_wall_x(int x)
 	y = cub()->pixel_y_start;
 	while (y < cub()->pixel_y_end)
 	{
-		texture_y = (int) texture_pos & (cub()->texture_height[cub()->texture_index] - 1);
+		texture_y = (int) texture_pos
+			& (cub()->texture_height[cub()->texture_index] - 1);
 		texture_pos += step;
 		color = cub()->texture[cub()->texture_index]
-		[cub()->texture_height[cub()->texture_index] * texture_y + cub()->texture_x];
+		[cub()->texture_height[cub()->texture_index]
+			* texture_y + cub()->texture_x];
 		if (cub()->side == 1)
 			color = (color >> 1) & 8355711;
 		pixel_put(x, y, color);
