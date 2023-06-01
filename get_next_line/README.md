@@ -12,9 +12,7 @@ Repeated calls (e.g., using a loop) to get_next_line() function should let you r
 
 If there is nothing else to read or if an error occurred, it should return NULL.
 
-Forbidden:
-- lseek() is forbidden.
-- Global variables are forbidden.
+Forbidden: lseek() is forbidden. | Global variables are forbidden.
 
 Bonus part: 
 - Develop get_next_line() using only one static variable.
@@ -22,4 +20,5 @@ Bonus part:
 
 ### How to compile
 
-To compile the code use as follows (a buffer size of 42 is used as an ex): cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 < files >.c
+To compile the code use as follows (a buffer size of 42 is used as an ex): 
+- cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 < files >.c
