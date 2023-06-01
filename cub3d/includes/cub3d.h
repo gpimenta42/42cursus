@@ -6,7 +6,7 @@
 /*   By: gpimenta <gpimenta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:38:24 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/05/25 17:27:20 by gpimenta         ###   ########.fr       */
+/*   Updated: 2023/05/28 16:49:25 by gpimenta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_cub
 	unsigned long	ceiling;
 	int				map_line;
 	int				**texture;
+	int				txt_i;
 	int				texture_width[4];
 	int				texture_height[4];
 	double			pos_x;
@@ -143,7 +144,7 @@ int				drawing(void);
 void			colors_loading(void);
 unsigned long	convert_colors(int	*rgb);
 int				textures_loading(void);
-int				fill_texture(t_texture img, int i);
+int				fill_texture(t_texture img, int i, int y);
 int				parse(char *str);
 int				valid_elements(char **all);
 int				map_allocation(char **all);
@@ -172,6 +173,6 @@ void			rotate_right(double old_dir_x, double old_pla_x);
 int				store_path(char *str, char c, int i);
 void			*texture_to_image(t_texture *img, int i);
 void			ft_free_int(int	**arr);
-
+int				check_any_other_wall(char **all, int j);
 
 #endif

@@ -1,70 +1,72 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_include.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jaiveca- <jaiveca-@student.42lisboa.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/24 14:55:16 by gpimenta          #+#    #+#             */
-/*   Updated: 2023/05/28 16:06:10 by jaiveca-         ###   ########.fr       */
+/*   Created: 2023/05/28 12:56:31 by jaiveca-          #+#    #+#             */
+/*   Updated: 2023/05/28 13:26:18 by jaiveca-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_count(char const *s, char c)
+int	ft_count_include(char const *s, char c)
 {
 	size_t	i;
 	size_t	count;
-	int		p;
 
 	i = 0;
-	p = 1;
 	count = 0;
 	while (s[i])
 	{
-		if (p == 1 && s[i] != c)
-		{
+		if (s[i] == c)
 			count++;
-			p = 0;
-		}
-		else if (s[i] == c)
-			p = 1;
+		if (s[i + 1] == '\0' && s[i] != c)
+			count++;
 		i++;
 	}
 	return (count);
 }
 
-int	ft_countletter(char const *s1, char c)
+int	ft_countletter_include(char const *s1, char c)
 {
 	size_t	i;
 
 	i = 0;
-	while (s1[i] != c && s1[i])
+	while (s1[i] && s1[i] != c)
+		i++;
+	if (s1[i] && s1[i] == c)
 		i++;
 	return (i);
 }
 
-char	*ft_string(char **array, char const *s, int *i, char c)
+char	*ft_string_include(char const *s, int *i, char c)
 {
 	int		a;
 	char	*str;
 
 	a = 0;
-	str = malloc(sizeof(char) * (ft_countletter(s + *i, c) + 1));
-	if (!array)
+	str = malloc(sizeof(char) * (ft_countletter_include(s + *i, c) + 1));
+	if (!str)
 		return (NULL);
-	while (s[*i] != c && s[*i])
+	while (s[*i] && s[*i] != c)
 	{
 		str[a] = s[*i];
 		a++;
+		(*i)++;
+	}
+	if (s[*i] && s[*i] == c)
+	{
+		str[a++] = c;
 		(*i)++;
 	}
 	str[a] = '\0';
 	return (str);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_include(char const *s, char c)
 {
 	int		d;
 	int		i;
@@ -72,16 +74,14 @@ char	**ft_split(char const *s, char c)
 
 	d = 0;
 	i = 0;
-	array = (char **)malloc(sizeof(char *) * (ft_count(s, c) + 1));
+	array = (char **)malloc(sizeof(char *) * (ft_count_include(s, c) + 1));
 	if (!array)
 		return (NULL);
 	while (s[i])
 	{
-		while (s[i] == c && s[i])
-			i++;
 		if (s[i])
 		{
-			array[d] = ft_string(array, s, &i, c);
+			array[d] = ft_string_include(s, &i, c);
 			d++;
 		}
 	}
@@ -89,19 +89,18 @@ char	**ft_split(char const *s, char c)
 	return (array);
 }
 
-/*
-int main(void)
-{
-	char *str = "*ola*gaspar*";
-	char **splt;
-	int	i;
+// int main(void)
+// {
+// 	char *str = "ola\n\ngaspar";
+// 	char **splt;
+// 	int	i;
 
-	i = 0;
-	splt = ft_split(str, '*');
-	while (splt[i])
-	{
-		printf("%s, ", splt[i]);
-		i++;
-	}
-	return (0);
-}*/
+// 	i = 0;
+// 	splt = ft_split_include(str, '\n');
+// 	while (splt[i])
+// 	{
+// 		printf("%d->%s", i, splt[i]);
+// 		i++;
+// 	}
+// 	return (0);
+// }
