@@ -5,15 +5,7 @@ The prototype of ft_printf() is:
 
 int ft_printf(const char *, ...);
 
-Here are the requirements:
-
-• Don’t implement the buffer management of the original printf().
-
-• Your function will be compared against the original printf().
-
-• You must use the command ar to create your library. Using the libtool command is forbidden.
-
-• Your libftprintf.a has to be created at the root of your repository.
+Here are the requirements: Don’t implement the buffer management of the original printf(). | Your function will be compared against the original printf(). | You must use the command ar to create your library. Using the libtool command is forbidden. | Your libftprintf.a has to be created at the root of your repository.
 
 
 It handles the following conversions:
