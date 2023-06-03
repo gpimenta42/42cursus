@@ -46,4 +46,16 @@ fclean:	clean
 
 re: 	fclean all
 
+test100:			$(NAME)	
+					$(eval ARG = $(shell shuf -i 0-5000 -n 100))
+					./push_swap $(ARG) | ./checker $(ARG)
+					@echo -n "Moves: "
+					@./push_swap $(ARG) | wc -l
+
+test500:			$(NAME)	
+					$(eval ARG = $(shell shuf -i 0-5000 -n 500))
+					./push_swap $(ARG) | ./checker $(ARG)
+					@echo -n "Moves: "
+					@./push_swap $(ARG) | wc -l
+
 .PHONY:	all clean fclean re
